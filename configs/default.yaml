@@ -1,0 +1,59 @@
+# Model settings
+model:
+  type: vgg19  # 'vgg19', 'fast_nst', 'multi_scale'
+  pretrained: true
+  content_layers: [4]
+  style_layers: [1, 6, 11, 20]
+  max_size: 512
+  scales: [256, 512, 1024]  # For multi_scale model
+
+# Training settings
+training:
+  num_epochs: 500
+  learning_rate: 1.0
+  optimizer: LBFGS  # 'LBFGS', 'Adam'
+  style_weight: 1000000.0
+  content_weight: 1.0
+  tv_weight: 0.0001
+  batch_size: 1
+  num_workers: 4
+
+# Data settings
+data:
+  content_dir: data/content
+  style_dir: data/style
+  output_dir: assets
+  paired: false
+  augmentation:
+    horizontal_flip: 0.5
+    color_jitter:
+      brightness: 0.1
+      contrast: 0.1
+      saturation: 0.1
+      hue: 0.1
+
+# Evaluation settings
+evaluation:
+  metrics: [content_preservation, style_similarity, perceptual_distance]
+  save_samples: true
+  sample_frequency: 50
+  num_eval_samples: 10
+
+# System settings
+system:
+  device: auto  # 'auto', 'cuda', 'mps', 'cpu'
+  seed: 42
+  mixed_precision: false
+  compile_model: false
+
+# Logging settings
+logging:
+  log_level: INFO
+  log_file: logs/nst.log
+  wandb:
+    enabled: false
+    project: neural-style-transfer
+    entity: null
+  tensorboard:
+    enabled: false
+    log_dir: runs
